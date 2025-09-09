@@ -23,7 +23,7 @@ The rough development pipeline for this project is labeled below:
   - sidebar, header, navbar components
   - mobile navbar component
 
-## 0.3
+### 0.3
   - logout functionality
   - finalize auth
 
