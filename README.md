@@ -1,8 +1,74 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Storage Managament Platform
+
+## Project Summary
+
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app) utilizing TailwindCSS, Shadcn components, and Appwrite.
+
+## Figma
+
+The Figma for this project that maps out the site layout and styling is linked [here](https://www.figma.com/design/y8I7xV3DWrJGEOlJ15IXyc/SMP---Google-Drive-Clone?node-id=2-2&p=f&t=ZfQf3un58zNOPmk5-0).
+
+## Development Pipeline
+
+The rough development pipeline for this project is labeled below:
+
+### 0.1
+  - import styles from Figma
+  - auth route setup
+  - signin/signup form functionality
+  - Appwrite backend setup + integration
+  - OTP setup + modal functionality
+
+### 0.2
+  - sidebar, header, navbar components
+  - mobile navbar component
+
+## 0.3
+  - logout functionality
+  - finalize auth
+
+### 0.4
+  - file upload functionality (home + mobile bar)
+
+### 0.5
+  - root path file layout
+  - sidebar pages functionality
+
+### 0.6
+  - retrieve files + individual file cards
+
+### 0.7
+  - file card action dropdown functionality
+  - rename file functionality + file details
+  - share file functionality
+  - delete file functionity
+
+### 0.8
+  - sort file functionality
+  - search bar functionality
+
+### 0.9
+  - dashboard chart component
+  - dashboard layout
+  
+### 1.0
+  - final touches
 
 ## Getting Started
 
-First, run the development server:
+First download the required dependancies:
+
+```bash
+npm install
+# or
+yarn install
+# or
+pnpm install
+# or
+bun install
+```
+
+Then, run the development server:
 
 ```bash
 npm run dev
@@ -15,22 +81,3 @@ bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
