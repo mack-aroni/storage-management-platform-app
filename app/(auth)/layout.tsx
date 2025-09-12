@@ -11,8 +11,7 @@ const Layout = ({children}: {children: React.ReactNode}) => {
             alt="logo"
             width ={224}
             height= {82}
-            className="h-auto"
-          />
+            className="h-auto" />
 
           <div className="space-y-5 text-white text-center">
             <h1 className="h1 flex flex-col items-center">
@@ -29,8 +28,7 @@ const Layout = ({children}: {children: React.ReactNode}) => {
             alt="files"
             width={300}
             height={300}
-            className="transition-all hover:rotate-5 hover:scale-110"
-            />
+            className="transition-all hover:rotate-5 hover:scale-110" />
         </div>
       </section>
 
@@ -41,8 +39,7 @@ const Layout = ({children}: {children: React.ReactNode}) => {
             alt="logo"
             width={224}
             height={82}
-            className="h-auto w-[200px] lg:w-[250px]"
-          />
+            className="h-auto w-[200px] lg:w-[250px]" />
         </div>
         
         {children}
