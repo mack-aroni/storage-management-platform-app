@@ -13,6 +13,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { createAccount } from "@/lib/actions/user.actions";
 import { useState } from "react";
 import Image from "next/image"
 import Link from "next/link";
@@ -48,6 +49,19 @@ const AuthForm = ({ type }: { type: FormType }) => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsLoading(true);
     setErrorMessage("");
+
+    try {
+      const user = await createAccount({
+        fullName: values.fullName || "",
+        email: values.email,
+      });
+
+      setAccountID(user.accountID);
+    } catch {
+      setErrorMessage("Failed to create account. Please try again.");
+    } finally {
+      setIsLoading(false);
+    };
   };
 
   return (
@@ -73,7 +87,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
 
                     <FormControl>
                       <Input placeholder="Enter full name"
-                      className=" shad-no-focus border-none p-0 shadow-none placeholder:text-light-200"
+                      className="shad-no-focus border-none p-0 shadow-none placeholder:text-light-200"
                       {...field} />
                     </FormControl>
                   </div>
@@ -95,7 +109,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
 
                     <FormControl>
                       <Input placeholder="Enter email" 
-                      className=" shad-no-focus border-none p-0 shadow-none placeholder:text-light-200"
+                      className="shad-no-focus border-none p-0 shadow-none placeholder:text-light-200"
                       {...field} />
                     </FormControl>
                   </div>
@@ -141,7 +155,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
         </form>
       </Form>
     </>
-  )
-}
+  );
+};
 
 export default AuthForm;
