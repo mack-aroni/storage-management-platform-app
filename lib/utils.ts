@@ -6,5 +6,5 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const parseStringify = (value: unknown) => {
-  JSON.parse(JSON.stringify(value));
+  return JSON.parse(JSON.stringify(value));
 }

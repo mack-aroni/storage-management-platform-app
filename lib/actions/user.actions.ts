@@ -4,6 +4,7 @@ import { createAdminClient, createSessionClient } from "../appwrite";
 import { appwriteConfig } from "../appwrite/config";
 import { Query, ID } from "node-appwrite";
 import { parseStringify } from "../utils";
+import { cookies } from "next/headers";
 
 // Helper to handle errors
 const handleError = ( error: unknown, message: string ) => {
@@ -69,4 +70,27 @@ export const createAccount = async({ fullName, email }: { fullName: string; emai
   };
 
   return parseStringify({ accountID });
+};
+
+// Verify OTP Secret
+export const verifySecret = async ({accountID, password}: {accountID: string, password: string}) => {
+  try {
+    const {account} = await createAdminClient();
+    
+    const session = await account.createSession({
+      userId: accountID, 
+      secret: password
+    });
+
+    (await cookies()).set("appwrite-session", session.secret, {
+      path: "/",
+      httpOnly: true,
+      sameSite: "strict",
+      secure: true
+    });
+
+    return parseStringify({ sessionID: session.$id });
+  } catch (error) {
+    handleError(error, "Failed to verify OTP");
+  };
 };

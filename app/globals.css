@@ -123,11 +123,15 @@
 
   /* ===== HELPER CLASSES ===== */
   .container { @apply mx-auto max-w-7xl px-5; }
-  .primary-btn { @apply rounded-full bg-brand transition-all hover:bg-brand-100; }
+  .primary-btn { @apply !rounded-full !bg-brand !transition-all hover:bg-brand-100; }
   .flex-center { @apply flex items-center justify-center; }
 
   /* ===== SHADCN OVERRIDES ===== */
   .shad-no-focus {
     @apply !outline-none !ring-offset-transparent focus:!ring-transparent focus:!ring-offset-0 focus-visible:!outline-none focus-visible:!ring-0 focus-visible:!ring-transparent focus-visible:!ring-offset-0;
+  }
+
+  .shad-otp-slot {
+    @apply !flex !size-12 !justify-center !gap-5 !rounded-xl !border-2 !border-light-300 !text-[40px] !font-medium !text-brand-100 !shadow-drop-1 !ring-brand md:!size-16;
   }
 }
