@@ -94,3 +94,22 @@ export const verifySecret = async ({accountID, password}: {accountID: string, pa
     handleError(error, "Failed to verify OTP");
   };
 };
+
+// Retrieve Current User
+export const getCurrentUser = async () => {
+  try {
+    const {tablesDB, account} = await createSessionClient();
+    
+    const result = await account.get();
+
+    const user = await tablesDB.listRows({
+      databaseId: appwriteConfig.databaseId,
+      tableId: appwriteConfig.usersCollectionId,
+      queries: [Query.equal("accountID", result.$id)],
+    });
+
+  return user.total <= 0 ? null : parseStringify(user.rows[0]);
+  } catch(error) {
+    console.log(error);
+  }
+};
