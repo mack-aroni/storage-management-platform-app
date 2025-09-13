@@ -5,6 +5,7 @@ import { appwriteConfig } from "../appwrite/config";
 import { Query, ID } from "node-appwrite";
 import { parseStringify } from "../utils";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 // Helper to handle errors
 const handleError = ( error: unknown, message: string ) => {
@@ -66,7 +67,7 @@ export const createAccount = async({ fullName, email }: { fullName: string; emai
         avatar: avatarUrl,
         accountID,
       },
-      });
+    });
   };
 
   return parseStringify({ accountID });
@@ -108,8 +109,23 @@ export const getCurrentUser = async () => {
       queries: [Query.equal("accountID", result.$id)],
     });
 
-  return user.total <= 0 ? null : parseStringify(user.rows[0]);
+    return user.total <= 0 ? null : parseStringify(user.rows[0]);
   } catch(error) {
     console.log(error);
-  }
+  };
+};
+
+// User Signout Action
+export const signOutUser = async () => {
+  const {account} = await createSessionClient();
+
+  try {
+    await account.deleteSession({sessionId:"current"});
+
+    (await cookies()).delete("appwrite-sesion");
+  } catch(error) {
+    handleError(error, "Failed to sign out user");
+  } finally {
+    redirect('/sign-in');
+  };
 };

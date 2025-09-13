@@ -71,7 +71,7 @@ const OTPModal = ({ accountID, email }: { accountID: string; email: string }) =>
         </AlertDialogHeader>
 
         <InputOTP maxLength={6} value={password} onChange={setPassword}>
-          <InputOTPGroup className="flex w-full justify-between gap-1 sm:gap-2">
+          <InputOTPGroup className="flex w-full justify-between gap-1">
             <InputOTPSlot index={0} className="shad-otp-slot" />
             <InputOTPSlot index={1} className="shad-otp-slot" />
             <InputOTPSlot index={2} className="shad-otp-slot" />

@@ -2,16 +2,16 @@
 
 import React from "react";
 import { navItems } from "@/constants";
+import { cn } from "@/lib/utils";
+import { usePathname } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { cn } from "@/lib/utils";
 
 interface Props {
   fullName: string,
   avatar: string,
   email: string,
-}
+};
 
 const Sidebar = ({ fullName, avatar, email }: Props) => {
   const pathname = usePathname();
