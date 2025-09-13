@@ -5,6 +5,7 @@ import { appwriteConfig } from "../appwrite/config";
 import { Query, ID } from "node-appwrite";
 import { parseStringify } from "../utils";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 // Helper to handle errors
 const handleError = ( error: unknown, message: string ) => {
@@ -66,7 +67,7 @@ export const createAccount = async({ fullName, email }: { fullName: string; emai
         avatar: avatarUrl,
         accountID,
       },
-      });
+    });
   };
 
   return parseStringify({ accountID });
@@ -92,5 +93,55 @@ export const verifySecret = async ({accountID, password}: {accountID: string, pa
     return parseStringify({ sessionID: session.$id });
   } catch (error) {
     handleError(error, "Failed to verify OTP");
+  };
+};
+
+// Retrieve Current User
+export const getCurrentUser = async () => {
+  try {
+    const {tablesDB, account} = await createSessionClient();
+    
+    const result = await account.get();
+
+    const user = await tablesDB.listRows({
+      databaseId: appwriteConfig.databaseId,
+      tableId: appwriteConfig.usersCollectionId,
+      queries: [Query.equal("accountID", result.$id)],
+    });
+
+    return user.total <= 0 ? null : parseStringify(user.rows[0]);
+  } catch(error) {
+    console.log(error);
+  };
+};
+
+// User Signout Action
+export const signOutUser = async () => {
+  const {account} = await createSessionClient();
+
+  try {
+    await account.deleteSession({sessionId:"current"});
+
+    (await cookies()).delete("appwrite-sesion");
+  } catch(error) {
+    handleError(error, "Failed to sign out user");
+  } finally {
+    redirect('/sign-in');
+  };
+};
+
+//Sign In User Action
+export const signInUser = async ({email}: {email: string}) => {
+  try {
+    const existingUser = await getUserByEmail(email);
+
+    if (existingUser) {
+      await sendEmailOTP({email});
+      return parseStringify({accountID: existingUser.accountID});
+    };
+
+    return parseStringify({accountID: null, error: "User not found"});
+  } catch (error) {
+    handleError(error, "Failed to sign in user");
   };
 };
