@@ -24,10 +24,13 @@ const Layout = ({children}: {children: React.ReactNode}) => {
             </p>
           </div>
 
-          <Image src="/assets/images/files.gif"
-            alt="files"
+          <video src="/assets/images/files.webm"
             width={300}
             height={300}
+            autoPlay 
+            loop 
+            muted 
+            playsInline
             className="transition-all hover:rotate-5 hover:scale-110" />
         </div>
       </section>
