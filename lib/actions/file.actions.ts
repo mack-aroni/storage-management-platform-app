@@ -1,0 +1,64 @@
+"use server"
+
+import { InputFile } from "node-appwrite/file";
+import { createAdminClient } from "../appwrite"
+import { appwriteConfig } from "../appwrite/config";
+import { ID } from "node-appwrite";
+import { constructFileUrl, getFileType, parseStringify } from "../utils";
+import { revalidatePath } from "next/cache";
+
+// Helper to handle errors
+const handleError = (error: unknown, message: string) => {
+  console.log(error, message);
+  throw error;
+};
+
+// Upload New File Action
+export const uploadFile = async ({ file, ownerID, accountID, path }: UploadFileProps) => {
+  const { storage, tablesDB } = await createAdminClient();
+
+  try {
+    const inputFile = InputFile.fromBuffer(file, file.name);
+
+    // actual file storage
+    const bucketFile = await storage.createFile({
+      bucketId: appwriteConfig.bucketId,
+      fileId: ID.unique(),
+      file: inputFile,
+    });
+
+    // metadata
+    const fileMetaData = {
+      name: bucketFile.name,
+      url: constructFileUrl(bucketFile.$id),
+      type: getFileType(bucketFile.name).type,
+      bucketFileID: bucketFile.$id,
+      accountID: accountID,
+      owner: ownerID,
+      extension: getFileType(bucketFile.name).extension,
+      size: bucketFile.sizeOriginal,
+      users: [],
+    }
+
+    // metadata storage
+    const newFile = await tablesDB.createRow({
+      databaseId: appwriteConfig.databaseId,
+      tableId: appwriteConfig.filesCollectionId,
+      rowId: ID.unique(),
+      data: fileMetaData,
+    }).catch(async (error: unknown) => {
+      await storage.deleteFile({
+        bucketId: appwriteConfig.bucketId,
+        fileId: bucketFile.$id,
+      });
+
+      handleError(error, "Failed to create file document");
+    });
+
+    revalidatePath(path);
+
+    return parseStringify(newFile);
+  } catch(error) {
+    handleError(error, "Failed to upload file");
+  };
+};

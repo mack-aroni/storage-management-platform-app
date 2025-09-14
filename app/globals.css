@@ -123,7 +123,7 @@
 
   /* ===== HELPER CLASSES ===== */
   .container { @apply mx-auto max-w-7xl px-5; }
-  .primary-btn { @apply !rounded-full !bg-brand !transition-all hover:bg-brand-100; }
+  .primary-btn { @apply !rounded-full !bg-brand !transition-all hover:!bg-brand-100; }
   .flex-center { @apply flex items-center justify-center; }
 
   /* ===== SHADCN OVERRIDES ===== */

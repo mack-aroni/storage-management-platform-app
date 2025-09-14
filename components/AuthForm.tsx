@@ -144,8 +144,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
             <p className="text-light-100">
               {type === "sign-in"
                 ? "Don't have an account?"
-                : "Already have an account?"
-              }
+                : "Already have an account?"}
             </p>
 
             <Link href={type === "sign-in" ? "/sign-up" : "/sign-in"}
