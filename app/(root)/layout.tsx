@@ -17,7 +17,7 @@ const Layout = async ({children}: {children: React.ReactNode}) => {
       <section className="flex h-full flex-1 flex-col">
         <MobileNav {...currentUser}/> 
 
-        <Header/>
+        <Header userID={currentUser.$id} accountID={currentUser.accountID}/>
 
         <div className="remove-scrollbar main-content">
           {children}

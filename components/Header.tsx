@@ -4,13 +4,13 @@ import Image from "next/image";
 import FileUploader from "./FileUploader";
 import Search from "./Search";
 
-const Header = () => {
+const Header = ({ userID, accountID }: {userID: string; accountID: string}) => {
   return (
     <header className="hidden items-center justify-between gap-5 p-5 sm:flex lg:py-7 xl:gap-10">
       <Search />
 
       <div className="flex-center min-w-fit gap-4">
-        <FileUploader />
+        <FileUploader ownerID={userID} accountID={accountID}/>
 
         <form>
           <Button type="submit"
