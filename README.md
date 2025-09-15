@@ -35,7 +35,8 @@ The rough development pipeline for this project is labeled below:
   - sidebar pages functionality
 
 ### 0.6
-  - retrieve files + individual file cards
+  - retrieve file information functionality
+  - individual file card component
 
 ### 0.7
   - file card action dropdown functionality
