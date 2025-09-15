@@ -96,7 +96,6 @@ export const getFileIcon = (extension: string | undefined, type: FileType | stri
     : typeMap[type] || "/assets/icons/file-other.svg";
 };
 
-
 /* --- APPWRITE UTILS --- */
 // Construct appwrite file URL - https://appwrite.io/docs/apis/rest#images
 export const constructFileUrl = (bucketFileId: string) => {

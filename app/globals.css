@@ -85,25 +85,12 @@
 }
 
 @layer base {
-  * {
-    @apply border-border outline-ring/50 scroll-smooth;
-  }
-
-  body {
-    @apply bg-background text-foreground min-h-screen;
-  }
-
-  /* Optional scrollbar removal */
-  .remove-scrollbar {
-    scrollbar-width: none;
-  }
-  .remove-scrollbar::-webkit-scrollbar {
-    display: none;
-  }
-
-  .recharts-responsive-container {
-    height: initial !important;
-  }
+  * { @apply border-border outline-ring/50 scroll-smooth; }
+  body { @apply bg-background text-foreground min-h-screen; }
+  
+  .remove-scrollbar { scrollbar-width: none; }
+  .remove-scrollbar::-webkit-scrollbar { display: none; }
+  .recharts-responsive-container { height: initial !important; }
 }
 
 @layer utilities {
