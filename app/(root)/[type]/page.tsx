@@ -1,6 +1,7 @@
-import { getFiles } from "@/lib/actions/file.actions";
-import { Models } from "node-appwrite";
 import React from "react";
+import { Models } from "node-appwrite";
+import Card from "@/components/Card";
+import { getFiles } from "@/lib/actions/file.actions";
 
 interface Props {
   params: Promise<{ type?: string }>;
@@ -47,13 +48,11 @@ const page = async ({ params } : Props) => {
       {files.total > 0 ? (
         <section className="grid w-full gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {files.rows.map((file: Models.DefaultRow) => (
-              <h1 key={file.$id} className="h1">
-                {file.name}
-              </h1>
+              <Card key={file.$id} file={file} />
           ))}
         </section>
       ) : (
-        <p className="empty-list">
+        <p className="body-1 mt-10 text-center text-light-200">
           No files uploaded
         </p>
       )}
