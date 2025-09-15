@@ -19,7 +19,7 @@ const Layout = async ({children}: {children: React.ReactNode}) => {
 
         <Header userID={currentUser.$id} accountID={currentUser.accountID}/>
 
-        <div className="remove-scrollbar main-content">
+        <div className="remove-scrollbar h-full flex-1 overflow-auto bg-light-400 px-5 py-7 sm:mr-7 sm:rounded-[30px] md:mb-7 md:px-9 md:py-10;">
           {children}
         </div>
       </section>
