@@ -80,7 +80,7 @@ const createQueries = (currentUser: any) => {
 };
 
 // Retrieve Files Action
-export const getFiles = async () => {
+export const getFiles = async ({ types }: { types: FileType[] }) => {
   const {tablesDB} = await createAdminClient();
   
   try {

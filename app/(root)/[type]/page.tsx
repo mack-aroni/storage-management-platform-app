@@ -1,4 +1,5 @@
 import { getFiles } from "@/lib/actions/file.actions";
+import { Models } from "node-appwrite";
 import React from "react";
 
 interface Props {
@@ -16,7 +17,7 @@ const page = async ({ params } : Props) => {
   const { type: typeParam } = await params;
   const types = typeParam && typeMap[typeParam] || ["document"];
 
-  const files = await getFiles();
+  const files = await getFiles({ types });
 
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-col items-center gap-8">
@@ -45,7 +46,11 @@ const page = async ({ params } : Props) => {
       {/* Dynamically Render Uploaded Files */}
       {files.total > 0 ? (
         <section className="grid w-full gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          <p>Card</p>
+          {files.rows.map((file: Models.DefaultRow) => (
+              <h1 key={file.$id} className="h1">
+                {file.name}
+              </h1>
+          ))}
         </section>
       ) : (
         <p className="empty-list">
