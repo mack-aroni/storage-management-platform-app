@@ -68,12 +68,12 @@ export const uploadFile = async ({ file, ownerID, accountID, path }: UploadFileP
 const createQueries = (currentUser: any) => {
   const queries = [
     Query.or([
-      Query.equal('owner',[currentUser.$id]),
-      Query.contains('users',[currentUser.email]),
+      Query.equal("owner",[currentUser.$id]),
+      Query.contains("users",[currentUser.email]),
       
     ]),
     // expand owner relation
-    Query.select(['*','owner.*']),
+    Query.select(["*","owner.*"]),
   ];
 
   return queries;

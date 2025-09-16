@@ -101,7 +101,7 @@ export const getFileIcon = (extension: string | undefined, type: FileType | stri
 };
 
 // Format File Size
-export const convertFileSize = (sizeInBytes: number, digits?: number) => {
+export const convertFileSize = (sizeInBytes: number, digits: number = 1) => {
   if (sizeInBytes === 0) return "0 Bytes";
 
   const units = ["Bytes", "KB", "MB", "GB", "TB"];

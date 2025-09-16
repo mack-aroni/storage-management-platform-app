@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
+import { FileDetails, ShareInput } from "./DropdownModalContent";
 import { dropdownItems } from "@/constants";
 import { constructDownloadUrl } from "@/lib/utils";
 import { deleteFile, renameFile, updateFileUsers } from "@/lib/actions/file.actions";
@@ -93,12 +94,10 @@ const Dropdown = ({ file }: { file: Models.DefaultRow }) => {
               onChange={(e) => setName(e.target.value)}/>
           )}
             
-          {value === "details" && 
-          <p>TEMP</p>
-          }
+          {value === "details" && <FileDetails file={file}/>}
 
           {value === "share" && (
-            <p>TEMP</p>
+            <ShareInput file={file} onInputChange={setEmails} onRemove={handleRemoveUser}/>
           )}
 
           {value === "delete" && (
