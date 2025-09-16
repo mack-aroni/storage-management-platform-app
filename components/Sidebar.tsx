@@ -1,11 +1,12 @@
 "use client"
 
 import React from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { navItems } from "@/constants";
 import { cn } from "@/lib/utils";
-import { usePathname } from "next/navigation";
-import Image from "next/image";
-import Link from "next/link";
+
 
 interface Props {
   fullName: string,

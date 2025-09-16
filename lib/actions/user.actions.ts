@@ -126,7 +126,7 @@ export const signOutUser = async () => {
   } catch(error) {
     handleError(error, "Failed to sign out user");
   } finally {
-    redirect('/sign-in');
+    redirect("/sign-in");
   };
 };
 

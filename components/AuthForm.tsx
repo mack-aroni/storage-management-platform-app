@@ -1,9 +1,11 @@
 "use client"
 
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import Image from "next/image"
 import {
   Form,
   FormControl,
@@ -12,12 +14,10 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { createAccount } from "@/lib/actions/user.actions";
-import { useState } from "react";
-import Image from "next/image"
-import Link from "next/link";
 import OTPModal from "./OTPModal";
+import { createAccount } from "@/lib/actions/user.actions";
 
 type FormType = "sign-in" | "sign-up";
 

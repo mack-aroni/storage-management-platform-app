@@ -101,7 +101,7 @@ export const getFileIcon = (extension: string | undefined, type: FileType | stri
 };
 
 // Format File Size
-export const convertFileSize = (sizeInBytes: number, digits?: number) => {
+export const convertFileSize = (sizeInBytes: number, digits: number = 1) => {
   if (sizeInBytes === 0) return "0 Bytes";
 
   const units = ["Bytes", "KB", "MB", "GB", "TB"];
@@ -140,4 +140,9 @@ export const formatDateTime = (isoString: string | null | undefined): string => 
 // Construct appwrite file URL - https://appwrite.io/docs/apis/rest#images
 export const constructFileUrl = (bucketFileId: string) => {
   return `${process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT}/storage/buckets/${process.env.NEXT_PUBLIC_APPWRITE_BUCKET}/files/${bucketFileId}/view?project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT}`;
+};
+
+// Construct appwrite file download URL
+export const constructDownloadUrl = (bucketFileId: string) => {
+  return `${process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT}/storage/buckets/${process.env.NEXT_PUBLIC_APPWRITE_BUCKET}/files/${bucketFileId}/download?project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT}`;
 };

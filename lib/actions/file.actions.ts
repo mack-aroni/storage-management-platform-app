@@ -68,12 +68,12 @@ export const uploadFile = async ({ file, ownerID, accountID, path }: UploadFileP
 const createQueries = (currentUser: any) => {
   const queries = [
     Query.or([
-      Query.equal('owner',[currentUser.$id]),
-      Query.contains('users',[currentUser.email]),
+      Query.equal("owner",[currentUser.$id]),
+      Query.contains("users",[currentUser.email]),
       
     ]),
     // expand owner relation
-    Query.select(['*','owner.*']),
+    Query.select(["*","owner.*"]),
   ];
 
   return queries;
@@ -98,5 +98,70 @@ export const getFiles = async ({ types }: { types: FileType[] }) => {
     return parseStringify(files);
   } catch(error) {
     handleError(error, "Failed to get files");
+  };
+};
+
+// Update File Name Action
+export const renameFile = async ({ fileID, name, extension, path }: RenameFileProps) => {
+  const {tablesDB} = await createAdminClient();
+
+  try {
+    const newName = `${name}.${extension}`;
+    
+    const updatedFile = await tablesDB.updateRow({
+      databaseId: appwriteConfig.databaseId,
+      tableId: appwriteConfig.filesCollectionId,
+      rowId: fileID,
+      data: {name: newName},
+    });
+
+    revalidatePath(path);
+    return parseStringify(updatedFile);
+  } catch(error) {
+    handleError(error, "Failed to rename file");
+  };
+};
+
+// Share File Action
+export const updateFileUsers = async ({ fileID, emails, path }: UpdateFileUsersProps) => {
+  const {tablesDB} = await createAdminClient();
+
+  try {
+    const updatedFile = await tablesDB.updateRow({
+      databaseId: appwriteConfig.databaseId,
+      tableId: appwriteConfig.filesCollectionId,
+      rowId: fileID,
+      data: {users: emails},
+    });
+
+    revalidatePath(path);
+    return parseStringify(updatedFile);
+  } catch(error) {
+    handleError(error, "Failed to update file users");
+  };
+};
+
+// Delete File Action
+export const deleteFile = async ({ fileID, bucketFileID, path }: DeleteFileProps) => {
+  const { tablesDB, storage } = await createAdminClient();
+
+  try {
+    const deletedFile = await tablesDB.deleteRow({
+      databaseId: appwriteConfig.databaseId,
+      tableId: appwriteConfig.filesCollectionId,
+      rowId: fileID,
+    });
+
+    if (deletedFile) {
+      await storage.deleteFile({
+        bucketId: appwriteConfig.bucketId,
+        fileId: bucketFileID,
+      });
+    };
+
+    revalidatePath(path);
+    return parseStringify({ status: "success" });
+  } catch(error) {
+    handleError(error, "Failed to delete file");
   };
 };
