@@ -1,20 +1,20 @@
 "use client"
 
 import React, { useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { usePathname } from "next/navigation";
 import {
   Sheet,
   SheetContent,
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
-import Image from "next/image";
-import { usePathname } from "next/navigation";
-import { Separator } from "./ui/separator";
-import { navItems } from "@/constants";
-import Link from "next/link";
-import { cn } from "@/lib/utils";
 import { Button } from "./ui/button";
+import { Separator } from "./ui/separator";
 import FileUploader from "./FileUploader";
+import { navItems } from "@/constants";
+import { cn } from "@/lib/utils";
 import { signOutUser } from "@/lib/actions/user.actions";
 
 interface Props {
