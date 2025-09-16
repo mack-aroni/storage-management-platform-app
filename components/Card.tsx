@@ -3,8 +3,8 @@ import Link from "next/link";
 import { Models } from "node-appwrite";
 import Thumbnail from "./Thumbnail";
 import DateTime from "./DateTime";
+import Dropdown from "./Dropdown";
 import { convertFileSize } from "@/lib/utils";
-import Image from "next/image";
 
 const Card = ({ file }: { file: Models.DefaultRow }) => {
   return (
@@ -20,10 +20,7 @@ const Card = ({ file }: { file: Models.DefaultRow }) => {
           imageClassName="!size-11"/>
 
         <div className="flex flex-col items-end justify-between">
-          <Image src="assets/icons/dots.svg"
-            alt="dots"
-            width={34}
-            height={34}/>
+          <Dropdown file={file}/>
 
           <p className="body-1">
             {convertFileSize(file.size)}
