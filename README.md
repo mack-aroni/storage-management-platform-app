@@ -42,7 +42,7 @@ The rough development pipeline for this project is labeled below:
   - file card action dropdown functionality
   - rename file functionality + file details
   - share file functionality
-  - delete file functionity
+  - delete file functionality
 
 ### 0.8
   - sort file functionality
