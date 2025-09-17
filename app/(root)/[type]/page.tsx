@@ -50,7 +50,7 @@ const page = async ({ params, searchParams } : Props) => {
       </section>
 
       {/* Dynamically Render Uploaded Files */}
-      {files.total > 0 ? (
+      {files && files.total > 0 ? (
         <section className="grid w-full gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {files.rows.map((file: Models.DefaultRow) => (
               <Card key={file.$id} file={file} />
