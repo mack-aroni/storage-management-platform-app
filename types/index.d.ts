@@ -1,5 +1,20 @@
 declare type FileType = "document" | "image" | "video" | "audio" | "other";
 
+declare type CategorySpace = {
+  size: number;
+  latestDate: string;
+};
+
+declare type TotalSpace = {
+  image: CategorySpace;
+  document: CategorySpace;
+  video: CategorySpace;
+  audio: CategorySpace;
+  other: CategorySpace;
+  used: number;
+  all: number;
+};
+
 declare interface ActionType {
   label: string;
   icon: string;

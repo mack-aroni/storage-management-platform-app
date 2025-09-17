@@ -38,13 +38,14 @@ const Search = () => {
     };
   }, []);
 
+  const queryParam = searchParams.toString();
   // Update Search List Handler
   useEffect(() => {
     const fetchFiles = async() => {
       if (debouncedQuery.length === 0) {
         setResults([]);
         setOpen(false);
-        return router.push(path.replace(searchParams.toString(), ""));
+        return router.push(path.replace(queryParam.toString(), ""));
       }
       const files = await getFiles({ types: [], searchText: debouncedQuery });
       setResults(files.rows);
@@ -52,7 +53,7 @@ const Search = () => {
     }
 
     fetchFiles();
-  }, [debouncedQuery]);
+  }, [debouncedQuery, path, router, queryParam]);
 
   // Empty Handler
   useEffect(() => {
