@@ -3,7 +3,7 @@
 import { InputFile } from "node-appwrite/file";
 import { createAdminClient, createSessionClient } from "../appwrite"
 import { appwriteConfig } from "../appwrite/config";
-import { ID, Query } from "node-appwrite";
+import { ID, Models, Query } from "node-appwrite";
 import { constructFileUrl, getFileType, parseStringify } from "../utils";
 import { revalidatePath } from "next/cache";
 import { getCurrentUser } from "./user.actions";
@@ -65,7 +65,7 @@ export const uploadFile = async ({ file, ownerID, accountID, path }: UploadFileP
 };
 
 // Helper to formulate DB queries
-const createQueries = (currentUser: any, types: string[], searchText: string, sort: string, limit?: number) => {
+const createQueries = (currentUser: Models.DefaultRow, types: string[], searchText: string, sort: string, limit?: number) => {
   const queries = [
     Query.or([
       Query.equal("owner",[currentUser.$id]),
@@ -189,14 +189,14 @@ export async function getTotalSpaceUsed() {
       queries: [Query.equal("owner", [currentUser.$id])],
     });
 
-    const totalSpace = {
+    const totalSpace: TotalSpace = {
       image: { size: 0, latestDate: "" },
       document: { size: 0, latestDate: "" },
       video: { size: 0, latestDate: "" },
       audio: { size: 0, latestDate: "" },
       other: { size: 0, latestDate: "" },
       used: 0,
-      all: 2 * 1024 * 1024 * 1024
+      all: 2 * 1024 * 1024 * 1024 // 2GB
     };
 
     files.rows.forEach((file) => {
@@ -212,7 +212,7 @@ export async function getTotalSpaceUsed() {
       }
     });
 
-    return parseStringify(totalSpace);
+    return parseStringify(totalSpace) as TotalSpace;
   } catch (error) {
     handleError(error, "Error calculating total space used:, ");
   }
