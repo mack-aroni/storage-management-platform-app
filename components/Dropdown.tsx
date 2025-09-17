@@ -64,7 +64,7 @@ const Dropdown = ({ file }: { file: Models.DefaultRow }) => {
 
   // Remove User Handler
   const handleRemoveUser = async(email: string) => {
-    const updatedEmails = emails.filter((e) => e !== email);
+    const updatedEmails = emails.filter((email) => email !== email);
 
     const success = await updateFileUsers({
       fileID: file.$id,

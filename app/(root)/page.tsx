@@ -16,12 +16,12 @@ const Dashboard = async () => {
     getTotalSpaceUsed(),
   ]);
 
-  const usageSummary = getUsageSummary(totalSpace!);
+  const usageSummary = getUsageSummary(totalSpace);
 
   return (
     <div className="mx-auto grid max-w-7xl grid-cols-1 gap-6 md:grid-cols-2 xl:gap-10">
       <section>
-        <Chart used={totalSpace!.used} />
+        <Chart used={totalSpace.used} />
 
         {/* File Type Summaries */}
         <ul className="mt-6 grid grid-cols-1 gap-4 xl:mt-10 xl:grid-cols-2 xl:gap-9">
@@ -62,7 +62,7 @@ const Dashboard = async () => {
           Recent Files Uploaded
         </h2>
 
-        {files && files.rows.length > 0 ? (
+        {files.rows.length > 0 ? (
           <ul className="mt-5 flex flex-col gap-5">
             {files.rows.map((file: Models.DefaultRow) => (
               <Link href={file.url}

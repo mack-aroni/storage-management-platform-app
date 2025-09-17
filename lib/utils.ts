@@ -6,7 +6,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 // Parse JSON
-export const parseStringify = <T>(value: T): T => {
+export const parseStringify = (value: unknown) => {
   return JSON.parse(JSON.stringify(value));
 }
 
@@ -137,7 +137,7 @@ export const formatDateTime = (isoString: string | null | undefined): string => 
 };
 
 // DASHBOARD UTILS
-export const getUsageSummary = (totalSpace: TotalSpace) => {
+export const getUsageSummary = (totalSpace: any) => {
   return [
     {
       title: "Documents",
