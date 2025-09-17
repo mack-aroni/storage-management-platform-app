@@ -1,10 +1,12 @@
 import React from "react";
 import { Models } from "node-appwrite";
 import Card from "@/components/Card";
+import Sort from "@/components/Sort";
 import { getFiles } from "@/lib/actions/file.actions";
 
 interface Props {
   params: Promise<{ type?: string }>;
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
 const typeMap: Record<string, FileType[]> = {
@@ -14,11 +16,14 @@ const typeMap: Record<string, FileType[]> = {
   others: ["other"],
 };
 
-const page = async ({ params } : Props) => {
+const page = async ({ params, searchParams } : Props) => {
   const { type: typeParam } = await params;
-  const types = typeParam && typeMap[typeParam] || ["document"];
+  const searchText = ((await searchParams)?.query as string) || "";
+  const sort = ((await searchParams)?.sort as string) || "";
 
-  const files = await getFiles({ types });
+  const types = typeParam && typeMap[typeParam] || ["document"];
+  
+  const files = await getFiles({ types,searchText, sort });
 
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-col items-center gap-8">
@@ -39,7 +44,7 @@ const page = async ({ params } : Props) => {
             <p className="body-1 hidden sm:block text-light-200">
               Sort By: 
             </p>
-            Sort
+            <Sort />
           </div>
         </div>
       </section>

@@ -1,9 +1,9 @@
+import React from "react";
+import { redirect } from "next/navigation";
 import Header from "@/components/Header";
 import MobileNav from "@/components/MobileNav";
 import Sidebar from "@/components/Sidebar";
 import { getCurrentUser } from "@/lib/actions/user.actions";
-import { redirect } from "next/navigation";
-import React from "react";
 
 const Layout = async ({children}: {children: React.ReactNode}) => {
   const currentUser = await getCurrentUser();

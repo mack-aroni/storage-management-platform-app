@@ -24,7 +24,7 @@ const Layout = ({children}: {children: React.ReactNode}) => {
             </p>
           </div>
 
-          <video src="/assets/images/files.webm"
+          <video src="/assets/videos/files.webm"
             width={300}
             height={300}
             autoPlay 
