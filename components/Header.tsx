@@ -1,8 +1,9 @@
 import React from "react";
 import Image from "next/image";
 import { Button } from "./ui/button";
-import FileUploader from "./FileUploader";
 import Search from "./Search";
+import FileUploader from "./FileUploader";
+import { signOutUser } from "@/lib/actions/user.actions";
 
 const Header = ({ userID, accountID }: {userID: string; accountID: string}) => {
   return (
@@ -12,7 +13,10 @@ const Header = ({ userID, accountID }: {userID: string; accountID: string}) => {
       <div className="flex-center min-w-fit gap-4">
         <FileUploader ownerID={userID} accountID={accountID}/>
 
-        <form>
+        <form action={async () => {
+            "use server";
+            await signOutUser();
+        }}>
           <Button type="submit"
             className="flex-center h-[52px] min-w-[54px] items-center rounded-full bg-brand/10 p-0 text-brand shadow-none transition-all hover:bg-brand/20">
             <Image src="/assets/icons/logout.svg"
