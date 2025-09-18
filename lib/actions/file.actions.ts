@@ -177,16 +177,19 @@ export const deleteFile = async ({ fileID, bucketFileID, path }: DeleteFileProps
 };
 
 // Calculate Total Space Used
-export async function getTotalSpaceUsed() {
+export async function getTotalSpaceUsed(fileTypes?: FileType[]) {
   try {
     const { tablesDB } = await createSessionClient();
+
     const currentUser = await getCurrentUser();
     if (!currentUser) throw new Error("User is not authenticated.");
+
+    const queries = [Query.equal("owner", [currentUser.$id])];
 
     const files = await tablesDB.listRows({
       databaseId: appwriteConfig.databaseId,
       tableId: appwriteConfig.filesCollectionId,
-      queries: [Query.equal("owner", [currentUser.$id])],
+      queries,
     });
 
     const totalSpace = {
@@ -196,23 +199,35 @@ export async function getTotalSpaceUsed() {
       audio: { size: 0, latestDate: "" },
       other: { size: 0, latestDate: "" },
       used: 0,
-      all: 2 * 1024 * 1024 * 1024
+      all: 2 * 1024 * 1024 * 1024, // 2GB
     };
 
+    const fileTypeFilter: FileType[] = fileTypes ?? ["document", "image", "video", "audio", "other"];
+
+    // aggregate filtered types
     files.rows.forEach((file) => {
       const fileType = file.type as FileType;
-      totalSpace[fileType].size += file.size;
-      totalSpace.used += file.size;
+      if (fileTypeFilter.includes(fileType)) {
+        totalSpace[fileType].size += file.size;
 
-      if (
-        !totalSpace[fileType].latestDate ||
-        new Date(file.$updatedAt) > new Date(totalSpace[fileType].latestDate)
-      ) {
-        totalSpace[fileType].latestDate = file.$updatedAt;
-      }
+        if (
+          !totalSpace[fileType].latestDate ||
+          new Date(file.$updatedAt) > new Date(totalSpace[fileType].latestDate))
+        {
+          totalSpace[fileType].latestDate = file.$updatedAt;
+        };
+      };
     });
 
-    return parseStringify(totalSpace);
+    // calculate total filtered types
+    totalSpace.used = fileTypeFilter.reduce((sum, type) => sum + totalSpace[type].size, 0);
+
+    const filteredResult = fileTypeFilter.reduce(
+      (acc, type) => ({ ...acc, [type]: totalSpace[type] }),
+      {} as Record<FileType, { size: number; latestDate: string }>
+    );
+
+    return parseStringify({ ...filteredResult, used: totalSpace.used, all: totalSpace.all });
   } catch (error) {
     handleError(error, "Error calculating total space used:, ");
   }

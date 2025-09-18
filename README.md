@@ -55,4 +55,6 @@ The rough development pipeline for this project is labeled below:
 ### 1.0
   - final touches
 
-## DEMO VIDEO
+## DEMO
+
+[Visit the Website Here](storage-management-platform-app.vercel.app)
