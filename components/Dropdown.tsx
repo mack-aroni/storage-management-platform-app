@@ -79,8 +79,8 @@ const Dropdown = ({ file }: { file: Models.DefaultRow }) => {
   // Dialog Content Handler
   const renderDialogContent = () => {
     if (!action) return null;
-
     const { value, label } = action;
+    
     return (
       <DialogContent className="w-[90%] max-w-[400px] rounded-[26px] px-6 py-8 button">
         <DialogHeader className="flex flex-col gap-3">
@@ -90,7 +90,7 @@ const Dropdown = ({ file }: { file: Models.DefaultRow }) => {
 
           {value === "rename" && (
             <Input type="text"
-              value={name}
+              value={name.split(".")[0]}
               onChange={(e) => setName(e.target.value)}/>
           )}
             
