@@ -2,7 +2,8 @@ import React from "react";
 import { Models } from "node-appwrite";
 import Card from "@/components/Card";
 import Sort from "@/components/Sort";
-import { getFiles } from "@/lib/actions/file.actions";
+import { getFiles, getTotalSpaceUsed } from "@/lib/actions/file.actions";
+import { convertFileSize } from "@/lib/utils";
 
 interface Props {
   params: Promise<{ type?: string }>;
@@ -24,7 +25,8 @@ const page = async ({ params, searchParams } : Props) => {
   const types = typeParam && typeMap[typeParam] || ["document"];
   
   const files = await getFiles({ types,searchText, sort });
-
+  const fileSize = await getTotalSpaceUsed(types);
+    
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-col items-center gap-8">
       <section className="w-full">
@@ -36,7 +38,7 @@ const page = async ({ params, searchParams } : Props) => {
           <p className="body-1">
             Total: {" "}
             <span className="h5">
-              0 MB
+              {convertFileSize(fileSize.used) || 0}
             </span>
           </p>
 
