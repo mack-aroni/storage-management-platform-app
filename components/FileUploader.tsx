@@ -8,8 +8,12 @@ import { Button } from "./ui/button";
 import { toast } from "sonner";
 import Thumbnail from "./Thumbnail";
 import { MAX_FILE_SIZE } from "@/constants";
-import { uploadFile } from "@/lib/actions/file.actions";
-import { cn, convertFileToUrl, getFileType } from "@/lib/utils";
+// import { uploadFile } from "@/lib/actions/file.actions";
+import { ID, Client, Storage} from "node-appwrite";
+import { saveFileMetadata } from "@/lib/actions/file.actions";
+import { cn, constructFileUrl, convertFileToUrl, getFileType } from "@/lib/utils";
+import { appwriteConfig } from "@/lib/appwrite/config";
+import { createBrowserClient } from "@/lib/appwrite/browser";
 
 interface Props {
   ownerID: string;
@@ -21,45 +25,61 @@ const FileUploader = ({ ownerID, accountID, className }: Props) => {
   const path = usePathname();
   const [files, setFiles] = useState<File[]>([]);
 
-  // On File-Drop Handler
-  const onDrop = useCallback( async (acceptedFiles: File[]) => {
+  const onDrop = useCallback(async (acceptedFiles: File[]) => {
     setFiles(acceptedFiles);
 
-    // process each file
     const uploadPromises = acceptedFiles.map(async (file) => {
-      // check file size
-      if (file.size > MAX_FILE_SIZE) {
-        setFiles((prevFiles) => 
-          prevFiles.filter((f) => f.name !== file.name)
-        );
+      try {
+        const { storage } = createBrowserClient();
 
-        // file too large
-        return toast(
-          <p className="body-2 text-white">
-            <span className="font-semibold">
-              {file.name}
-            </span> is too large.
-            Max file size is 50MB.
-          </p>,
-          {className: "error-toast"}
-        );
-      };
-
-      // perform file upload action
-      return uploadFile({ file, ownerID, accountID, path })
-        .then((uploadedFile) => {
-          if (uploadedFile) {
-            setFiles((prevFiles) => 
-              prevFiles.filter((f) => f.name !== file.name)
-            );
-          };
+        // upload directly to Appwrite storage
+        const bucketFile = await storage.createFile({
+          bucketId: appwriteConfig.bucketId,
+          fileId: ID.unique(),
+          file: file,
         });
+
+        // extract metadata and save via server action
+        const { type, extension } = getFileType(bucketFile.name);
+        const fileUrl = constructFileUrl(bucketFile.$id);
+
+        await saveFileMetadata({
+          bucketFileID: bucketFile.$id,
+          name: bucketFile.name,
+          size: bucketFile.sizeOriginal,
+          type,
+          extension,
+          url: fileUrl,
+          ownerID,
+          accountID,
+          path,
+        });
+
+        // remove from upload list
+        setFiles((prev) => prev.filter((f) => f.name !== file.name));
+      } catch (err) {
+        toast.error(`Failed to upload ${file.name}`);
+      }
     });
 
     await Promise.all(uploadPromises);
   }, [ownerID, accountID, path]);
 
-  const {getRootProps, getInputProps} = useDropzone({ onDrop });
+  const { getRootProps, getInputProps } = useDropzone({
+    onDrop,
+    maxSize: MAX_FILE_SIZE,
+    onDropRejected: (rejectedFiles) => {
+      rejectedFiles.forEach(({ file }) => {
+        console.log("triggered");
+        toast.error(
+          <p className="body-2 text-error">
+            <span className="font-semibold">{file.name}</span> is too large.
+            Max file size is 50MB.
+          </p>
+        );
+      });
+    },
+  });
 
   // Cancel File Upload Handler
   const handleRemoveFile = (e: React.MouseEvent<HTMLImageElement, MouseEvent>, fileName: string) => {

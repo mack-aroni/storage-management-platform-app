@@ -14,53 +14,33 @@ const handleError = (error: unknown, message: string) => {
   throw error;
 };
 
-// Upload New File Action
-export const uploadFile = async ({ file, ownerID, accountID, path }: UploadFileProps) => {
-  const { storage, tablesDB } = await createAdminClient();
+// Save Metadata Action
+export const saveFileMetadata = async ({ bucketFileID, name, size, type, extension, url, ownerID, accountID, path }: SaveMetadataProps) => {
+  const { tablesDB } = await createAdminClient();
 
   try {
-    const inputFile = InputFile.fromBuffer(file, file.name);
-
-    // actual file storage
-    const bucketFile = await storage.createFile({
-      bucketId: appwriteConfig.bucketId,
-      fileId: ID.unique(),
-      file: inputFile,
-    });
-
-    // metadata
-    const fileMetaData = {
-      name: bucketFile.name,
-      url: constructFileUrl(bucketFile.$id),
-      type: getFileType(bucketFile.name).type,
-      bucketFileID: bucketFile.$id,
-      accountID: accountID,
-      owner: ownerID,
-      extension: getFileType(bucketFile.name).extension,
-      size: bucketFile.sizeOriginal,
-      users: [],
-    }
-
-    // metadata storage
     const newFile = await tablesDB.createRow({
       databaseId: appwriteConfig.databaseId,
       tableId: appwriteConfig.filesCollectionId,
       rowId: ID.unique(),
-      data: fileMetaData,
-    }).catch(async (error: unknown) => {
-      await storage.deleteFile({
-        bucketId: appwriteConfig.bucketId,
-        fileId: bucketFile.$id,
-      });
-
-      handleError(error, "Failed to create file document");
+      data: {
+        name,
+        url,
+        type,
+        bucketFileID,
+        accountID,
+        owner: ownerID,
+        extension,
+        size,
+        users: [],
+      },
     });
 
-    revalidatePath(path);
+    revalidatePath(String(path));
 
     return parseStringify(newFile);
-  } catch(error) {
-    handleError(error, "Failed to upload file");
+  } catch (error) {
+    handleError(error, "Failed to save metadata");
   };
 };
 
