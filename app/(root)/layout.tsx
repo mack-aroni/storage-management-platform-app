@@ -5,6 +5,8 @@ import MobileNav from "@/components/MobileNav";
 import Sidebar from "@/components/Sidebar";
 import { getCurrentUser } from "@/lib/actions/user.actions";
 
+export const dynamic = "force-dynamic";
+
 const Layout = async ({children}: {children: React.ReactNode}) => {
   const currentUser = await getCurrentUser();
 
