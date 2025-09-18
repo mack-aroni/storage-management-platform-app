@@ -8,9 +8,9 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 [Visit the Website Here](storage-management-platform-app.vercel.app)
 
-[![Watch the video](https://img.youtube.com/vi/QpyJU5dYqUk/maxresdefault.jpg)](https://youtu.be/QpyJU5dYqUk)
+https://github.com/user-attachments/assets/8b2385e9-899f-4edf-a283-acfd06b15eba
 
-### [Watch this video on YouTube](https://youtu.be/QpyJU5dYqUk)
+[Watch this video on YouTube](https://youtu.be/QpyJU5dYqUk)
 
 ## Figma
 
