@@ -4,6 +4,14 @@
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app) utilizing TailwindCSS, Shadcn components, and Appwrite.
 
+## DEMO
+
+[Visit the Website Here](storage-management-platform-app.vercel.app)
+
+[![Watch the video](https://img.youtube.com/vi/QpyJU5dYqUk/maxresdefault.jpg)](https://youtu.be/QpyJU5dYqUk)
+
+### [Watch this video on YouTube](https://youtu.be/QpyJU5dYqUk)
+
 ## Figma
 
 The Figma for this project that maps out the site layout and styling is linked [here](https://www.figma.com/design/y8I7xV3DWrJGEOlJ15IXyc/SMP---Google-Drive-Clone?node-id=2-2&p=f&t=ZfQf3un58zNOPmk5-0).
@@ -54,7 +62,3 @@ The rough development pipeline for this project is labeled below:
   
 ### 1.0
   - final touches
-
-## DEMO
-
-[Visit the Website Here](storage-management-platform-app.vercel.app)
